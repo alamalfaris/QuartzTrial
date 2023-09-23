@@ -1,5 +1,8 @@
+using log4net.Config;
+using log4net;
 using Quartz;
 using StudentApi.Jobs;
+using System.Reflection;
 
 namespace StudentApi
 {
@@ -27,12 +30,12 @@ namespace StudentApi
 
             var app = builder.Build();
 
+            var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
+            XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
+
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseAuthorization();
 

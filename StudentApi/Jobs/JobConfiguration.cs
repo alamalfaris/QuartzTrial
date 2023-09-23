@@ -15,6 +15,15 @@ namespace StudentApi.Jobs
                         .ForJob(jobKey)
                         .WithSimpleSchedule(schedule =>
                             schedule.WithIntervalInSeconds(5).RepeatForever()));
+
+            jobKey = JobKey.Create(nameof(JobGetFile));
+            options
+                .AddJob<JobGetFile>(jobBuilder => jobBuilder.WithIdentity(jobKey))
+                .AddTrigger(triger =>
+                    triger
+                        .ForJob(jobKey)
+                        .WithSimpleSchedule(schedule =>
+                            schedule.WithIntervalInMinutes(1).RepeatForever()));
         }
     }
 }

@@ -1,20 +1,16 @@
-﻿using Quartz;
+﻿using log4net;
+using Quartz;
 
 namespace StudentApi.Jobs
 {
     [DisallowConcurrentExecution]
     public class JobLogging : IJob
     {
-        private readonly ILogger<JobLogging> _logger;
-
-        public JobLogging(ILogger<JobLogging> logger)
-        {
-            _logger = logger;
-        }
+        private readonly ILog _logger = LogManager.GetLogger(typeof(JobLogging));
 
         public Task Execute(IJobExecutionContext context)
         {
-            _logger.LogInformation("{UtcNow}", DateTime.UtcNow);
+            _logger.Info($"{DateTime.Now}");
             return Task.CompletedTask;
         }
     }
