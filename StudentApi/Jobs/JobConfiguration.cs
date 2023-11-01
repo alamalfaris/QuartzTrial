@@ -7,22 +7,16 @@ namespace StudentApi.Jobs
     {
         public void Configure(QuartzOptions options)
         {
-            var jobKey = JobKey.Create(nameof(JobLogging));
+            //DateTime customeDateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 10, 0, 0)
+
+			var jobKey = JobKey.Create(nameof(JobLogging));
             options
                 .AddJob<JobLogging>(jobBuilder => jobBuilder.WithIdentity(jobKey))
                 .AddTrigger(triger =>
                     triger
                         .ForJob(jobKey)
-                        .WithSimpleSchedule(schedule =>
-                            schedule.WithIntervalInSeconds(5).RepeatForever()));
-
-            jobKey = JobKey.Create(nameof(JobGetFile));
-            options
-                .AddJob<JobGetFile>(jobBuilder => jobBuilder.WithIdentity(jobKey))
-                .AddTrigger(triger =>
-                    triger
-                        .ForJob(jobKey)
-                        .WithSimpleSchedule(schedule =>
+						//.StartAt(customeDateTime)
+						.WithSimpleSchedule(schedule =>
                             schedule.WithIntervalInMinutes(1).RepeatForever()));
         }
     }

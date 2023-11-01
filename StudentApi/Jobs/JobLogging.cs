@@ -8,10 +8,14 @@ namespace StudentApi.Jobs
     {
         private readonly ILog _logger = LogManager.GetLogger(typeof(JobLogging));
 
-        public Task Execute(IJobExecutionContext context)
+        public async Task Execute(IJobExecutionContext context)
         {
-            _logger.Info($"{DateTime.Now}");
-            return Task.CompletedTask;
+            _logger.Info($"Job start at: {DateTime.Now}");
+            _logger.Info($"Data-1");
+            Thread.Sleep(120000);
+            _logger.Info($"Data-2");            
+            _logger.Info($"Data-3");
+            await Task.CompletedTask;
         }
     }
 }
