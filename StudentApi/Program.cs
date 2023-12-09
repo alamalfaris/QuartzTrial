@@ -3,10 +3,13 @@ using log4net;
 using Quartz;
 using StudentApi.Jobs;
 using System.Reflection;
+using StudentApi.Database;
+using Microsoft.EntityFrameworkCore;
+using CrystalQuartz.AspNetCore;
 
 namespace StudentApi
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
@@ -23,7 +26,8 @@ namespace StudentApi
             {
                 options.WaitForJobsToComplete = true;
             });
-            builder.Services.ConfigureOptions<JobConfiguration>();
+            var scheduler = JobConfig.Create().Result;
+            //builder.Services.ConfigureOptions<JobConfiguration>()
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -41,6 +45,8 @@ namespace StudentApi
 
 
             app.MapControllers();
+
+            app.UseCrystalQuartz(() => scheduler);
 
             app.Run();
         }
